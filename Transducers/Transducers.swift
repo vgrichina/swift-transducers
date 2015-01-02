@@ -8,29 +8,37 @@
 
 import Foundation
 
+public struct Transducer<AccumType, ElemType1, ElemType2> {
+    typealias Fn1 = (AccumType, ElemType1) -> AccumType
+    typealias Fn2 = (AccumType, ElemType2) -> AccumType
+    typealias TFn = Fn2 -> Fn1
+
+    public let call : TFn
+}
+
 public func append<a>(var arr : [a], x : a) -> [a] {
     arr.append(x)
     return arr
 }
 
-public func transduce<a, b, c>(tfn : ((c, b) -> c) -> (c, a) -> c, rfn : (c, b) -> c, initial : c, arr : [a]) -> c {
-    return reduce(arr, initial, tfn(rfn))
+public func transduce<AccumType, ElemType1, ElemType2> (
+        tfn : Transducer<AccumType, ElemType1, ElemType2>,
+        rfn : (AccumType, ElemType2) -> AccumType,
+    initial : AccumType, arr : [ElemType1]) -> AccumType {
+
+    return reduce(arr, initial, tfn.call(rfn))
 }
 
-public func map<a, b, c>(fn : (a) -> b) -> ((c, b) -> c) -> (c, a) -> c {
-    func transducer(combine : (c, b) -> c) -> (c, a) -> c { // ?
-        func combiner(result : c, x : a) -> c {
-            return combine(result, fn(x))
-        }
-        return combiner
-    }
-    return transducer
+public func map<AccumType, ElemType1, ElemType2>(fn : ElemType1 -> ElemType2) -> Transducer<AccumType, ElemType1, ElemType2> {
+
+    return Transducer { combine in { result, elem in combine(result, fn(elem)) } }
 }
 
 infix operator |> { associativity left precedence 80 }
-public func |> <a, b, c>(fn1 : (a) -> b, fn2 : (b) -> c) -> (a) -> c {
-    func result(x : a) -> c {
-        return fn2(fn1(x))
-    }
-    return result;
+
+public func |> <AccumType, ElemType1, ElemType2, ElemType3>(
+        t1 : Transducer<AccumType, ElemType1, ElemType2>,
+        t2 : Transducer<AccumType, ElemType3, ElemType1>) -> Transducer<AccumType, ElemType3, ElemType2> {
+
+    return Transducer { combine in t2.call(t1.call(combine)) }
 }

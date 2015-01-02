@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D58C24DC1A571868009D41AA /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		D5BF24671A563165007C6A6D /* Transducers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transducers.swift; sourceTree = "<group>"; };
 		D5BF24691A5631DF007C6A6D /* TransducersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransducersTests.swift; sourceTree = "<group>"; };
 		D5BF24701A5633A6007C6A6D /* Transducers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Transducers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +55,7 @@
 		D5BF24441A5630FA007C6A6D = {
 			isa = PBXGroup;
 			children = (
+				D58C24DC1A571868009D41AA /* Demo.playground */,
 				D5BF24711A5633A6007C6A6D /* Transducers */,
 				D5BF247E1A5633A7007C6A6D /* TransducersTests */,
 				D5BF244E1A5630FA007C6A6D /* Products */,
