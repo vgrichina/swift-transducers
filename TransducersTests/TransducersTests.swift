@@ -20,10 +20,10 @@ class TransducersTest: XCTestCase {
     func testComplex() {
         let result = transduce(
             map({$0 + 1}) |>
-            map({$0 * 2}) |>
-            map({$0 + 1}), append, [], [1, 2, 3])
+            filter({$0 % 2 == 0}) |>
+            map({$0 * 2}), append, [], [1, 2, 3, 4, 5])
         
-        XCTAssertEqual([5, 7, 9], result)
+        XCTAssertEqual([4, 8, 12], result)
     }
 
     func testPerformanceExampleSimple() {
